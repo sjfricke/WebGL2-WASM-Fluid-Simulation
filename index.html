@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebGL2-WASM-Fluid-Simulation</title>
+    <script src="lib/gl-matrix.js"></script>
+    <script src="lib/picogl.js"></script>
+    <script src="src/utils.js"></script>
+    <script src="src/main.js"></script>
+    <style>
+      html {
+          overflow: hidden;
+      }
+      
+      body {
+          margin: 0;
+      }
+      
+      #timer {
+          position: absolute;
+          bottom: 10px;
+          left: 10px;
+          color: white;
+      }
+    </style>
+</head>
+<body onload="init()">
+    <canvas id="gl-canvas"></canvas>
+    <script type="x-shader/vs" id="vertex-draw">
+        #version 300 es
+
+        layout(std140, column_major) uniform;
+
+        layout(location=0) in vec4 position;
+        
+        uniform SceneUniforms {
+            mat4 viewProj;
+        };
+
+        uniform mat4 uModel;
+        
+        out vec3 vPosition;
+
+        void main() {
+            gl_Position = viewProj * uModel * position;
+        }
+    </script>
+    <script type="x-shader/vf" id="fragment-draw">
+        #version 300 es
+        precision highp float;
+        
+        out vec4 fragColor;
+        
+        void main() {
+            vec3 color = vec3(1.0, 0.0, 0.0);
+            fragColor = vec4(color, 1.0);
+        }
+    </script>
+</body>
+</html>
